@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucas Contreras · Desarrollo Web y Datos</title>
+<meta name="description" content="Desarrollo de páginas web, dashboards y automatizaciones para pymes e instituciones. Ingeniería Civil Informática, PUCV.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+  /* =====================================================
+     Tokens
+     Radios: tarjetas 16px · pills 9999px (regla única)
+     Sombra: teñida al matiz de marca, nunca negra pura
+     ===================================================== */
+  :root{
+    --brand:#f97316;
+    --brand-press:#ea580c;
+    --brand-deep:#c2410c;
+    --peach:#ffedd5;
+    --peach-soft:#fff7ed;
+
+    --bg:#fffdfb;
+    --surface:#faf6f1;
+    --surface-raise:#f3ece3;
+    --hairline:#ece4da;
+
+    --ink:#1c1917;
+    --body-c:#3f3a36;
+    --mute:#57524d;
+    --on-brand:#1c1917;
+
+    --focus-outer:#c2410c;
+    --focus-inner:#ffffff;
+
+    --r-card:16px;
+    --r-pill:9999px;
+
+    --shadow-rest:0 1px 2px rgba(154,52,18,.05);
+    --shadow-lift:0 2px 4px rgba(154,52,18,.05), 0 14px 28px -18px rgba(154,52,18,.25);
+
+    --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px;
+    --sp-5:24px; --sp-6:32px; --sp-7:48px;
+    --sp-section:clamp(44px, 6vw, 72px);
+
+    --font:'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+    --ease-out:cubic-bezier(.22,1,.36,1);
+
+    --z-nav:20; --z-skip:40;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--font);
+    background:var(--bg);
+    color:var(--body-c);
+    font-size:16.5px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .container{max-width:1120px;margin:0 auto;padding:0 clamp(20px, 4vw, 32px)}
+  svg{display:block}
+  h1,h2,h3{color:var(--ink);text-wrap:balance}
+  p{text-wrap:pretty}
+
+  a:focus-visible,button:focus-visible{
+    outline:none;
+    box-shadow:0 0 0 2px var(--focus-inner), 0 0 0 4px var(--focus-outer);
+    border-radius:var(--r-pill);
+  }
+
+  .skip-link{position:absolute;left:-9999px;top:0;background:var(--brand);color:var(--on-brand);padding:12px 24px;font-weight:700;z-index:var(--z-skip);border-radius:0 0 var(--r-card) 0}
+  .skip-link:focus{left:0}
+
+  /* ===== Navbar ===== */
+  nav.primary{
+    position:sticky;top:0;z-index:var(--z-nav);
+    background:rgba(255,253,251,.9);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--hairline);
+  }
+  nav.primary .container{display:flex;justify-content:space-between;align-items:center;height:68px}
+  .wordmark{color:var(--ink);font-weight:800;font-size:17px;letter-spacing:-.01em;text-decoration:none}
+  .wordmark span{color:var(--brand-press)}
+  nav.primary .links{display:flex;align-items:center;gap:var(--sp-1)}
+  nav.primary .links a:not(.btn){
+    color:var(--body-c);text-decoration:none;font-size:15px;font-weight:600;
+    padding:9px 14px;border-radius:var(--r-pill);
+    transition:background .18s var(--ease-out), color .18s var(--ease-out);
+  }
+  nav.primary .links a:not(.btn):hover{background:var(--peach-soft);color:var(--ink)}
+
+  /* ===== Botones ===== */
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;justify-content:center;
+    min-height:44px;padding:10px 22px;
+    font-family:var(--font);font-size:15px;font-weight:700;line-height:1;
+    text-decoration:none;border:0;border-radius:var(--r-pill);cursor:pointer;
+    transition:background .18s var(--ease-out), transform .16s var(--ease-out), box-shadow .18s var(--ease-out);
+  }
+  .btn:active{transform:scale(.97)}
+  .btn-primary{background:var(--brand);color:var(--on-brand);box-shadow:var(--shadow-rest)}
+  .btn-primary:hover{background:var(--brand-press);box-shadow:var(--shadow-lift)}
+  .btn-secondary{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--hairline)}
+  .btn-secondary:hover{background:var(--peach-soft);box-shadow:inset 0 0 0 1.5px var(--brand)}
+  .btn-dark{background:var(--ink);color:#fff}
+  .btn-dark:hover{background:#000}
+  .btn .arrow{transition:transform .18s var(--ease-out)}
+  .btn:hover .arrow{transform:translateX(3px)}
+  .btn-lg{min-height:50px;padding:13px 26px;font-size:16px}
+
+  /* ===== Hero ===== */
+  header.hero{
+    position:relative;
+    padding:clamp(40px, 6vw, 68px) 0 var(--sp-section);
+    overflow:hidden;
+  }
+  .hero-glow{
+    position:absolute;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(52% 44% at 78% 6%,  rgba(249,115,22,.16), transparent 70%),
+      radial-gradient(44% 40% at 12% 18%, rgba(251,146,60,.14), transparent 70%),
+      radial-gradient(60% 52% at 50% 108%, rgba(255,237,213,.9), transparent 72%),
+      linear-gradient(180deg, #fff8f1 0%, var(--bg) 62%);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px, 5vw, 72px);align-items:center}
+  .hero-inner{max-width:780px}
+
+  /* Composición de capturas reales en el hero */
+  .hero-visual{position:relative;min-height:430px}
+  .shot{
+    position:absolute;border-radius:12px;overflow:hidden;
+    background:#fff;
+    box-shadow:0 2px 6px rgba(154,52,18,.08), 0 24px 48px -20px rgba(154,52,18,.35);
+  }
+  .shot-bar{
+    display:flex;align-items:center;gap:6px;
+    padding:9px 12px;background:#f3ece3;border-bottom:1px solid var(--hairline);
+  }
+  .shot-bar span{width:9px;height:9px;border-radius:50%;background:#ddd2c4}
+  .shot-bar span:first-child{background:var(--brand)}
+  .shot img{display:block;width:100%}
+  .shot-1{width:86%;top:0;right:0;rotate:1.5deg}
+  .shot-2{width:52%;bottom:0;left:0;rotate:-2.5deg}
+  @media (prefers-reduced-motion: no-preference){
+    .shot-1{animation:floaty 7s ease-in-out infinite}
+    .shot-2{animation:floaty 7s ease-in-out 1.4s infinite}
+    @keyframes floaty{50%{translate:0 -10px}}
+  }
+  @media(max-width:880px){
+    .hero-grid{grid-template-columns:1fr}
+    .hero-visual{display:none}
+  }
+  .hero-id{
+    display:flex;align-items:center;gap:10px;
+    color:var(--brand-deep);font-weight:700;font-size:15px;
+    margin-bottom:var(--sp-4);
+  }
+  .hero-id::before{content:"";width:28px;height:2px;background:var(--brand);border-radius:1px}
+  .hero h1{
+    font-size:clamp(2.6rem, 6.4vw, 4.4rem);
+    font-weight:800;line-height:1.04;letter-spacing:-.025em;
+    margin-bottom:var(--sp-4);
+    max-width:16ch;
+  }
+  .hero h1 em{font-style:normal;color:var(--brand-press)}
+  .hero .lede{
+    font-size:clamp(1.05rem, 1.5vw, 1.2rem);line-height:1.6;
+    max-width:52ch;margin-bottom:var(--sp-5);
+  }
+  .hero-actions{display:flex;flex-wrap:wrap;gap:var(--sp-3)}
+
+  /* Entrada del hero: escalonada, ease-out, sin bloquear contenido */
+  @media (prefers-reduced-motion: no-preference){
+    .rise{opacity:0;transform:translateY(22px);animation:rise .8s var(--ease-out) forwards}
+    .rise-2{animation-delay:.09s}
+    .rise-3{animation-delay:.18s}
+    .rise-4{animation-delay:.27s}
+    @keyframes rise{to{opacity:1;transform:translateY(0)}}
+  }
+
+  /* ===== Secciones ===== */
+  section{padding:var(--sp-section) 0}
+  h2{
+    font-size:clamp(1.7rem, 3.2vw, 2.3rem);
+    font-weight:800;line-height:1.12;letter-spacing:-.02em;
+    margin-bottom:var(--sp-3);
+  }
+  .section-sub{color:var(--mute);font-size:17px;line-height:1.55;max-width:58ch;margin-bottom:var(--sp-5)}
+
+  /* Reveals por scroll: visibles por defecto; JS activa el estado oculto */
+  html.reveal-on [data-reveal]{opacity:0;transform:translateY(20px);transition:opacity .7s var(--ease-out), transform .7s var(--ease-out)}
+  html.reveal-on [data-reveal].in{opacity:1;transform:translateY(0)}
+
+  /* ===== Sobre mí ===== */
+  #sobre-mi{border-top:1px solid var(--hairline)}
+  .about{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(32px, 5vw, 64px);align-items:start}
+  .about .bio p+p{margin-top:var(--sp-4)}
+  .about .bio strong{color:var(--ink);font-weight:700}
+  .portrait{
+    width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 30%;
+    border-radius:var(--r-card);display:block;
+    box-shadow:var(--shadow-rest);
+  }
+  .facts{
+    background:var(--surface);border-radius:var(--r-card);
+    padding:var(--sp-5) var(--sp-6);
+    margin-top:var(--sp-5);
+    display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-5) var(--sp-6);
+  }
+  @media(max-width:520px){.facts{grid-template-columns:1fr}}
+  .fact{display:grid;gap:2px}
+  .fact dt{color:var(--mute);font-size:13.5px;font-weight:600}
+  .fact dd{color:var(--ink);font-size:16.5px;font-weight:700;line-height:1.35}
+
+  /* ===== Servicios ===== */
+  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--sp-4)}
+  .tile{
+    background:var(--surface);border-radius:var(--r-card);
+    padding:var(--sp-6) var(--sp-5);
+    display:flex;flex-direction:column;
+    transition:transform .22s var(--ease-out), box-shadow .22s var(--ease-out), background .22s var(--ease-out);
+  }
+  .tile:hover{transform:translateY(-4px);box-shadow:var(--shadow-lift);background:#fff}
+  .tile.featured{background:var(--peach);}
+  .tile.featured:hover{background:var(--peach)}
+  .tile .icon{
+    width:40px;height:40px;border-radius:12px;
+    background:rgba(249,115,22,.14);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:var(--sp-4);
+  }
+  .tile .icon svg{width:20px;height:20px;stroke:var(--brand-deep);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .tile h3{font-size:17px;font-weight:700;margin-bottom:var(--sp-2)}
+  .tile p{color:var(--mute);font-size:15px;line-height:1.5;flex:1}
+  .tile .price{color:var(--brand-deep);font-size:14.5px;font-weight:800;margin-top:var(--sp-4)}
+
+  /* ===== Habilidades ===== */
+  #habilidades{background:var(--surface);border-block:1px solid var(--hairline)}
+  .skill-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px, 4vw, 48px)}
+  .skill-group h3{font-size:15px;font-weight:700;color:var(--brand-deep);margin-bottom:var(--sp-4)}
+  .skills{display:flex;flex-wrap:wrap;gap:var(--sp-2)}
+  .skill{
+    background:#fff;color:var(--body-c);
+    font-size:14.5px;font-weight:600;line-height:1;
+    padding:12px 16px;border-radius:var(--r-pill);
+    box-shadow:var(--shadow-rest);
+    transition:background .18s var(--ease-out), color .18s var(--ease-out), transform .18s var(--ease-out);
+  }
+  .skill:hover{background:var(--ink);color:#fff;transform:translateY(-2px)}
+
+  /* ===== Proyectos ===== */
+  .chips{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-bottom:var(--sp-5)}
+  .chip{
+    background:transparent;color:var(--body-c);
+    font-family:var(--font);font-size:14.5px;font-weight:700;line-height:1;
+    padding:12px 18px;min-height:42px;
+    border:1.5px solid var(--hairline);border-radius:var(--r-pill);cursor:pointer;
+    transition:background .18s var(--ease-out), color .18s var(--ease-out), border-color .18s var(--ease-out);
+  }
+  .chip:hover{border-color:var(--brand);color:var(--ink)}
+  .chip:active{transform:scale(.97)}
+  .chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  .projects{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-4)}
+  .project{
+    background:#fff;border-radius:var(--r-card);overflow:hidden;
+    box-shadow:var(--shadow-rest);
+    display:flex;flex-direction:column;
+    transition:transform .24s var(--ease-out), box-shadow .24s var(--ease-out);
+  }
+  .project:hover{transform:translateY(-5px);box-shadow:var(--shadow-lift)}
+  .project.hidden{display:none}
+  .project.wide{grid-column:1 / -1;flex-direction:row}
+  .project .cover{position:relative;overflow:hidden;background:var(--peach)}
+  .project .cover svg,
+  .project .cover img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .5s var(--ease-out)}
+  .project:hover .cover svg,
+  .project:hover .cover img{transform:scale(1.04)}
+  button.cover{border:0;padding:0;font:inherit;cursor:zoom-in;display:block;width:100%;text-align:left}
+  button.cover:focus-visible{box-shadow:0 0 0 2px var(--focus-inner), 0 0 0 4px var(--focus-outer);border-radius:0}
+  .cover-badge{
+    position:absolute;left:14px;bottom:14px;
+    display:inline-flex;align-items:center;gap:6px;
+    background:rgba(28,25,23,.82);color:#fff;
+    font-size:13px;font-weight:700;line-height:1;
+    padding:9px 14px;border-radius:var(--r-pill);
+    pointer-events:none;
+  }
+  .project.wide .cover{flex:0 0 46%}
+  .project .body{padding:var(--sp-6) var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-3)}
+  .project.wide .body{padding:var(--sp-6);justify-content:center}
+  .project .kind{color:var(--brand-deep);font-size:13.5px;font-weight:700}
+  .project h3{font-size:clamp(1.1rem, 1.6vw, 1.35rem);font-weight:700;line-height:1.25}
+  .project p{color:var(--mute);font-size:15px;line-height:1.55}
+  .project .tech{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:var(--sp-2)}
+  .project .tech span{
+    background:var(--surface);color:var(--mute);
+    font-size:12.5px;font-weight:700;line-height:1;
+    padding:7px 11px;border-radius:var(--r-pill);
+  }
+  .project .go{
+    color:var(--ink);font-size:14.5px;font-weight:700;text-decoration:none;
+    display:inline-flex;align-items:center;gap:6px;margin-top:var(--sp-2);
+    border-radius:var(--r-pill);width:max-content;
+  }
+  .project .go .arrow{transition:transform .18s var(--ease-out)}
+  .project .go:hover{color:var(--brand-deep)}
+  .project .go:hover .arrow{transform:translateX(3px)}
+
+  /* ===== Lightbox de capturas ===== */
+  #lightbox{
+    border:0;padding:0;margin:auto;
+    background:transparent;
+    max-width:min(1080px, 94vw);width:100%;
+  }
+  #lightbox::backdrop{background:rgba(28,25,23,.86);backdrop-filter:blur(4px)}
+  .lb-frame{
+    background:var(--bg);border-radius:var(--r-card);overflow:hidden;
+    box-shadow:0 24px 64px -24px rgba(0,0,0,.5);
+  }
+  .lb-frame img,
+  .lb-frame video{display:block;width:100%;max-height:min(72vh, 720px);object-fit:contain;background:#1c1917}
+  .lb-bar{
+    display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);
+    padding:var(--sp-3) var(--sp-4);
+  }
+  .lb-caption{color:var(--ink);font-size:15px;font-weight:700;min-width:0}
+  .lb-caption small{display:block;color:var(--mute);font-weight:600;font-size:13px;margin-top:2px}
+  .lb-controls{display:flex;align-items:center;gap:var(--sp-2);flex-shrink:0}
+  .lb-count{color:var(--mute);font-size:13.5px;font-weight:700;min-width:44px;text-align:center}
+  .lb-btn{
+    width:42px;height:42px;border-radius:var(--r-pill);border:1.5px solid var(--hairline);
+    background:#fff;color:var(--ink);font-size:18px;font-weight:700;cursor:pointer;
+    display:inline-flex;align-items:center;justify-content:center;
+    transition:background .18s var(--ease-out), border-color .18s var(--ease-out);
+  }
+  .lb-btn:hover{background:var(--peach-soft);border-color:var(--brand)}
+  .lb-btn:active{transform:scale(.95)}
+
+  /* ===== Experiencia / Formación ===== */
+  .timeline{position:relative;max-width:680px;display:grid;gap:var(--sp-5);margin-top:var(--sp-5);list-style:none}
+  .timeline::before{
+    content:"";position:absolute;left:7px;top:10px;bottom:10px;width:2px;
+    background:linear-gradient(180deg, var(--brand), var(--peach));border-radius:1px;
+  }
+  .entry{position:relative;padding-left:40px}
+  .entry::before{
+    content:"";position:absolute;left:0;top:6px;
+    width:16px;height:16px;border-radius:50%;
+    background:var(--bg);border:3px solid var(--brand);
+  }
+  .entry .when{color:var(--brand-deep);font-size:13.5px;font-weight:700;margin-bottom:4px}
+  .entry h3{font-size:17.5px;font-weight:700;margin-bottom:4px}
+  .entry p{color:var(--mute);font-size:15px;line-height:1.55;max-width:56ch}
+
+  /* ===== Contacto ===== */
+  #contacto{
+    background:linear-gradient(180deg, var(--peach-soft), var(--peach));
+    border-block:1px solid var(--hairline);
+  }
+  .contact-inner{max-width:640px;margin:0 auto;text-align:center}
+  .contact-inner h2{margin-bottom:var(--sp-3)}
+  .contact-inner p{color:var(--mute);font-size:17px;margin-bottom:var(--sp-6)}
+  .contact-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--sp-3)}
+  .contact-note{margin-top:var(--sp-5);font-size:14.5px;color:var(--mute)}
+  .contact-note a{color:var(--brand-deep);font-weight:700;text-decoration:none;border-radius:var(--r-pill)}
+  .contact-note a:hover{text-decoration:underline}
+
+  /* ===== Footer ===== */
+  footer{background:var(--bg);padding:var(--sp-6) 0 var(--sp-5)}
+  .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--sp-6);padding-bottom:var(--sp-6)}
+  footer h3{font-size:14px;font-weight:700;margin-bottom:var(--sp-3)}
+  footer ul{list-style:none}
+  footer li{margin-bottom:var(--sp-2)}
+  footer a{color:var(--mute);font-size:14.5px;text-decoration:none;padding:4px 0;display:inline-block;border-radius:var(--r-pill);transition:color .15s var(--ease-out)}
+  footer a:hover{color:var(--brand-deep)}
+  footer .about-col p{color:var(--mute);font-size:14.5px;line-height:1.55}
+  .footer-bottom{border-top:1px solid var(--hairline);padding-top:var(--sp-4);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--sp-3)}
+  .footer-bottom .mark{color:var(--ink);font-weight:800;font-size:15px}
+  .footer-bottom .mark span{color:var(--brand-press)}
+  .footer-bottom p{color:var(--mute);font-size:13px}
+
+  /* ===== Responsive ===== */
+  @media(max-width:900px){
+    .project.wide{flex-direction:column}
+    .project.wide .cover{flex:none;aspect-ratio:16/8}
+  }
+  @media(max-width:768px){
+    .about{grid-template-columns:1fr}
+    .projects{grid-template-columns:1fr}
+    nav.primary .links a:not(.btn){display:none}
+    .hero-actions .btn{flex:1 1 auto}
+  }
+
+  /* ===== Reduced motion ===== */
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{transition-duration:.01ms !important;animation-duration:.01ms !important;animation-iteration-count:1 !important}
+    html.reveal-on [data-reveal]{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<nav class="primary" aria-label="Principal">
+  <div class="container">
+    <a class="wordmark" href="#inicio">Lucas Contreras<span>.</span></a>
+    <div class="links">
+      <a href="#sobre-mi">Sobre mí</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#experiencia">Experiencia</a>
+      <a class="btn btn-primary" href="#contacto">Cotizar</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="container hero-grid">
+    <div class="hero-inner">
+      <p class="hero-id rise">Lucas Contreras · Desarrollador web y datos</p>
+      <h1 class="rise rise-2">Crea la web que tu negocio <em>merece</em></h1>
+      <p class="lede rise rise-3">Desarrollo webs, dashboards y automatizaciones para pymes e instituciones, con trabajo real entregado a la Municipalidad de Santo Domingo y Synthon Chile. Precio fijo por escrito y trato directo conmigo.</p>
+      <div class="hero-actions rise rise-4">
+        <a class="btn btn-primary btn-lg" href="#proyectos">Ver proyectos <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn-secondary btn-lg" href="#contacto">Cotizar tu proyecto</a>
+      </div>
+    </div>
+    <div class="hero-visual rise rise-3" aria-hidden="true">
+      <div class="shot shot-1">
+        <div class="shot-bar"><span></span><span></span><span></span></div>
+        <img src="img/muni-portada.webp" alt="">
+      </div>
+      <div class="shot shot-2">
+        <div class="shot-bar"><span></span><span></span><span></span></div>
+        <img src="img/game-gameplay.webp" alt="">
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="contenido">
+
+<section id="sobre-mi">
+  <div class="container">
+    <div class="about">
+      <div class="bio" data-reveal>
+        <h2>Sobre mí</h2>
+        <p>Soy Lucas Contreras Delgado, estudiante de <strong>Ingeniería Civil Informática en la PUCV</strong> y desarrollador freelance. Trabajo con pymes e instituciones que necesitan presencia web seria, paneles de datos claros o dejar de perder horas en tareas repetitivas.</p>
+        <p>He entregado una plataforma ciudadana para la <strong>Municipalidad de Santo Domingo</strong> y realicé mi práctica de ciberseguridad en <strong>Synthon Chile</strong>. Cada proyecto parte con alcance fijo por escrito: sabes qué recibes, cuándo y a qué precio, antes de pagar.</p>
+        <dl class="facts">
+          <div class="fact"><dt>Ubicación</dt><dd>Valparaíso, Chile</dd></div>
+          <div class="fact"><dt>Formación</dt><dd>Ingeniería Civil Informática, PUCV</dd></div>
+          <div class="fact"><dt>Clientes reales</dt><dd>Municipalidad de Santo Domingo · Synthon Chile</dd></div>
+          <div class="fact"><dt>Respuesta</dt><dd>Menos de 24 horas</dd></div>
+        </dl>
+      </div>
+      <img class="portrait" src="img/lucas-contreras.webp" alt="Lucas Contreras Delgado" width="474" height="638" loading="lazy" data-reveal>
+    </div>
+  </div>
+</section>
+
+<section id="servicios">
+  <div class="container">
+    <div data-reveal>
+      <h2>Servicios</h2>
+      <p class="section-sub">Precios de lanzamiento, alcance fijo por escrito y comunicación directa.</p>
+    </div>
+    <div class="tiles" data-reveal>
+      <div class="tile featured">
+        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="14" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="18" x2="12" y2="21"/></svg></div>
+        <h3>Landing page profesional</h3>
+        <p>Página moderna, rápida y adaptada a celulares para tener presencia online ya.</p>
+        <p class="price">Desde $200.000 CLP</p>
+      </div>
+      <div class="tile">
+        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="21"/></svg></div>
+        <h3>Sitio web corporativo</h3>
+        <p>Varias secciones, contacto, WhatsApp y Google Maps integrados.</p>
+        <p class="price">Desde $350.000 CLP</p>
+      </div>
+      <div class="tile">
+        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20v-10M10 20V4M16 20v-6"/><path d="M2 20h20"/></svg></div>
+        <h3>Dashboards y datos</h3>
+        <p>Tus planillas convertidas en paneles visuales y reportes automáticos.</p>
+        <p class="price">Desde $400.000 CLP</p>
+      </div>
+      <div class="tile">
+        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><rect x="8" y="8" width="8" height="8" rx="2"/></svg></div>
+        <h3>Automatizaciones y scraping</h3>
+        <p>Tareas repetitivas automatizadas con Python. Recupera horas cada semana.</p>
+        <p class="price">Cotización según proyecto</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="habilidades">
+  <div class="container">
+    <div data-reveal>
+      <h2>Habilidades y tecnologías</h2>
+      <p class="section-sub">Formación universitaria más experiencia en proyectos reales.</p>
+    </div>
+    <div class="skill-groups" data-reveal>
+      <div class="skill-group">
+        <h3>Desarrollo web</h3>
+        <div class="skills">
+          <span class="skill">JavaScript / TypeScript</span>
+          <span class="skill">React</span>
+          <span class="skill">HTML/CSS</span>
+          <span class="skill">Supabase</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Datos y automatización</h3>
+        <div class="skills">
+          <span class="skill">Python</span>
+          <span class="skill">Análisis de datos</span>
+          <span class="skill">Web scraping</span>
+          <span class="skill">MySQL</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Base de ingeniería</h3>
+        <div class="skills">
+          <span class="skill">Java</span>
+          <span class="skill">C</span>
+          <span class="skill">Ciberseguridad</span>
+          <span class="skill">GitHub</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proyectos">
+  <div class="container">
+    <div data-reveal>
+      <h2>Proyectos destacados</h2>
+      <p class="section-sub">Trabajo real para instituciones y empresas. Filtra por categoría.</p>
+    </div>
+    <div class="chips" role="group" aria-label="Filtrar proyectos" data-reveal>
+      <button class="chip" aria-pressed="true" data-filter="todos">Todos</button>
+      <button class="chip" aria-pressed="false" data-filter="web">Web</button>
+      <button class="chip" aria-pressed="false" data-filter="datos">Datos</button>
+      <button class="chip" aria-pressed="false" data-filter="software">Software</button>
+    </div>
+    <div class="projects" id="grid-proyectos" data-reveal>
+
+      <article class="project wide" data-cat="web">
+        <button class="cover" type="button" data-lightbox-open="muni" aria-label="Ver demo en video y 12 capturas de la plataforma de la Municipalidad de Santo Domingo">
+          <img src="img/muni-portada.webp" alt="Portada de la plataforma de ciberseguridad de la Municipalidad de Santo Domingo" width="1150" height="781" loading="lazy">
+          <span class="cover-badge">🎬 Demo en video + 12 capturas</span>
+        </button>
+        <div class="body">
+          <p class="kind">Plataforma de ciberseguridad ciudadana</p>
+          <h3>Municipalidad de Santo Domingo</h3>
+          <p>Plataforma completa con registro de vecinos, panel personal con seguimiento de progreso, cuestionarios de seguridad, módulos educativos, denuncias, alertas municipales y análisis de URLs sospechosas con Google Safe Browsing.</p>
+          <div class="tech"><span>React</span><span>Supabase</span><span>TypeScript</span></div>
+          <a class="go" href="#contacto">Pedir algo similar <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+
+      <article class="project" data-cat="software">
+        <button class="cover" type="button" data-lightbox-open="game" aria-label="Ver gameplay en video y 5 capturas del videojuego SPACE-NAV">
+          <img src="img/game-menu.webp" alt="Menú principal del videojuego SPACE-NAV" width="1142" height="746" loading="lazy">
+          <span class="cover-badge">🎬 Gameplay + 5 capturas</span>
+        </button>
+        <div class="body">
+          <p class="kind">Videojuego 2D</p>
+          <h3>SPACE-NAV</h3>
+          <p>Juego de naves y asteroides con rondas progresivas, tres naves jugables, power-ups de escudo y velocidad, y tutorial interactivo por fases.</p>
+          <div class="tech"><span>Java</span><span>libGDX</span><span>POO</span></div>
+          <a class="go" href="#contacto">Pedir algo similar <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+
+      <article class="project" data-cat="datos">
+        <button class="cover" type="button" data-lightbox-open="data" aria-label="Ver 4 capturas del sistema de recopilación de datos">
+          <img src="img/data-scraper.webp" alt="Código Python del scraper del Diario Oficial de Chile" width="1151" height="863" loading="lazy">
+          <span class="cover-badge">📷 Ver 4 capturas</span>
+        </button>
+        <div class="body">
+          <p class="kind">Datos automáticos</p>
+          <h3>Scripts de recopilación de datos</h3>
+          <p>Scraper del Diario Oficial de Chile que convierte publicaciones en datos estructurados, con pipeline automatizado en Docker, base de datos y avisos por correo.</p>
+          <div class="tech"><span>Python</span><span>Web scraping</span><span>Docker</span></div>
+          <a class="go" href="#contacto">Pedir algo similar <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+
+      <article class="project" data-cat="software">
+        <button class="cover" type="button" data-lightbox-open="java" aria-label="Ver 5 capturas del sistema de evaluación de estudiantes">
+          <img src="img/java-evaluacion.webp" alt="Ventana de inicio de evaluación del sistema de estudiantes en Java" width="673" height="432" loading="lazy">
+          <span class="cover-badge">📷 Ver 5 capturas</span>
+        </button>
+        <div class="body">
+          <p class="kind">App de escritorio</p>
+          <h3>Sistema de evaluación de estudiantes</h3>
+          <p>Evaluaciones por materia con puntaje, registro de notas, modo práctica y editor de preguntas. Construido con Java Swing y programación orientada a objetos.</p>
+          <div class="tech"><span>Java</span><span>POO</span><span>Swing</span></div>
+          <a class="go" href="#contacto">Pedir algo similar <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<section id="experiencia">
+  <div class="container">
+    <div data-reveal>
+      <h2>Experiencia y formación</h2>
+      <p class="section-sub">Proyectos entregados y formación en curso.</p>
+    </div>
+    <ol class="timeline" data-reveal>
+      <li class="entry">
+        <p class="when">Freelance · entregado</p>
+        <h3>Plataforma ciudadana, Municipalidad de Santo Domingo</h3>
+        <p>Desarrollo completo de la plataforma web del programa municipal: sesiones, cuestionarios, módulos educativos y reportes.</p>
+      </li>
+      <li class="entry">
+        <p class="when">Práctica profesional · completada</p>
+        <h3>Ciberseguridad, Synthon Chile</h3>
+        <p>Inventario de activos de red con Python y soporte tecnológico en planta farmacéutica.</p>
+      </li>
+      <li class="entry">
+        <p class="when">En curso</p>
+        <h3>Ingeniería Civil Informática, PUCV</h3>
+        <p>Pontificia Universidad Católica de Valparaíso. Base formal en algoritmos, bases de datos, redes y desarrollo de software.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<section id="contacto" aria-label="Contacto">
+  <div class="container contact-inner" data-reveal>
+    <h2>¿Trabajamos juntos?</h2>
+    <p>Cuéntame tu idea sin costo ni compromiso. Respondo en menos de 24 horas.</p>
+    <div class="contact-actions">
+      <a class="btn btn-primary btn-lg" href="mailto:lucascontreras.sta@gmail.com?subject=Cotización%20proyecto">Escríbeme un correo</a>
+      <a class="btn btn-dark btn-lg" href="https://wa.me/56974087471">WhatsApp +56 9 7408 7471</a>
+    </div>
+    <p class="contact-note">O directo a <a href="mailto:lucascontreras.sta@gmail.com">lucascontreras.sta@gmail.com</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="about-col">
+        <h3>Lucas Contreras Delgado</h3>
+        <p>Ingeniería Civil Informática<br>Pontificia Universidad Católica de Valparaíso · Chile</p>
+      </div>
+      <div>
+        <h3>Servicios</h3>
+        <ul>
+          <li><a href="#servicios">Landing pages</a></li>
+          <li><a href="#servicios">Sitios corporativos</a></li>
+          <li><a href="#servicios">Dashboards y datos</a></li>
+          <li><a href="#servicios">Automatizaciones</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Proyectos</h3>
+        <ul>
+          <li><a href="#proyectos">Municipalidad de Santo Domingo</a></li>
+          <li><a href="#proyectos">Videojuego SPACE-NAV</a></li>
+          <li><a href="#proyectos">Scripts de datos</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contacto</h3>
+        <ul>
+          <li><a href="mailto:lucascontreras.sta@gmail.com">lucascontreras.sta@gmail.com</a></li>
+          <li><a href="https://wa.me/56974087471">WhatsApp +56 9 7408 7471</a></li>
+          <!-- TODO: agregar GitHub y LinkedIn con tus usuarios reales -->
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="mark">Lucas Contreras<span>.</span></span>
+      <p>© 2026 Lucas Contreras Delgado · Valparaíso, Chile</p>
+    </div>
+  </div>
+</footer>
+
+<dialog id="lightbox" aria-label="Capturas del proyecto">
+  <div class="lb-frame">
+    <img id="lb-img" src="img/muni-portada.webp" alt="">
+    <video id="lb-video" controls muted playsinline preload="metadata" style="display:none"></video>
+    <div class="lb-bar">
+      <p class="lb-caption" id="lb-caption"></p>
+      <div class="lb-controls">
+        <button class="lb-btn" type="button" id="lb-prev" aria-label="Captura anterior">←</button>
+        <span class="lb-count" id="lb-count" aria-live="polite"></span>
+        <button class="lb-btn" type="button" id="lb-next" aria-label="Captura siguiente">→</button>
+        <button class="lb-btn" type="button" id="lb-close" aria-label="Cerrar">✕</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  // Filtro de proyectos
+  const chips = document.querySelectorAll('.chip');
+  const cards = document.querySelectorAll('#grid-proyectos .project');
+  chips.forEach(c => c.addEventListener('click', () => {
+    chips.forEach(x => x.setAttribute('aria-pressed', String(x === c)));
+    const f = c.dataset.filter;
+    cards.forEach(p => p.classList.toggle('hidden', f !== 'todos' && !p.dataset.cat.split(' ').includes(f)));
+  }));
+
+  // Lightbox de capturas por proyecto
+  const galleries = {
+    muni: [
+      { src:'img/muni-demo.mp4', video:true,     t:'Demo en video',             d:'Recorrido completo por la plataforma funcionando (sin audio)' },
+      { src:'img/muni-portada.webp',              t:'Portada',                   d:'Inicio de la plataforma de ciberseguridad municipal' },
+      { src:'img/muni-login.webp',                t:'Iniciar sesión',            d:'Acceso de vecinos registrados' },
+      { src:'img/muni-registro.webp',             t:'Registro',                  d:'Creación de cuenta con RUT, región y comuna' },
+      { src:'img/muni-dashboard.webp',            t:'Panel personal',            d:'Progreso del vecino: módulos, cuestionarios y nivel de conocimiento por área' },
+      { src:'img/muni-cuestionarios.webp',        t:'Cuestionarios',             d:'Evaluaciones de seguridad digital con puntaje y nivel de riesgo' },
+      { src:'img/muni-cuestionario-detalle.webp', t:'Detalle de cuestionario',   d:'Material complementario antes de responder cada evaluación' },
+      { src:'img/muni-educacion.webp',            t:'Módulos educativos',        d:'8 módulos sobre phishing, VPNs, privacidad y buenas prácticas' },
+      { src:'img/muni-protocolos.webp',           t:'Protocolos',                d:'Biblioteca de documentos municipales con búsqueda y categorías' },
+      { src:'img/muni-alertas.webp',              t:'Alertas',                   d:'Publicaciones de seguridad emitidas por la municipalidad' },
+      { src:'img/muni-actividades.webp',          t:'Actividades municipales',   d:'Calendario de charlas y talleres de ciberseguridad' },
+      { src:'img/muni-denuncias.webp',            t:'Denuncias',                 d:'Formulario de reporte de incidentes con archivos adjuntos' },
+      { src:'img/muni-herramientas.webp',         t:'Herramientas de seguridad', d:'Análisis de URLs sospechosas con Google Safe Browsing' },
+    ],
+    java: [
+      { src:'img/java-menu.webp',       t:'Menú principal',        d:'App de escritorio en Java Swing: evaluaciones, notas, prácticas y extras' },
+      { src:'img/java-evaluacion.webp', t:'Iniciar evaluación',    d:'Selección de materia y nombre del estudiante' },
+      { src:'img/java-pregunta.webp',   t:'Evaluación con puntaje',d:'Preguntas de alternativas y resultado final al terminar' },
+      { src:'img/java-notas.webp',      t:'Registro de notas',     d:'Historial de puntajes por materia y estudiante' },
+      { src:'img/java-editor.webp',     t:'Editor de preguntas',   d:'Agregar, modificar y eliminar preguntas de cada materia' },
+    ],
+    game: [
+      { src:'img/game-demo.mp4', video:true,    t:'Gameplay en video',   d:'Partida real: asteroides, disparos, power-ups y rondas (sin audio)' },
+      { src:'img/game-menu.webp',                t:'Menú principal',      d:'Videojuego 2D hecho con Java y libGDX' },
+      { src:'img/game-tutorial-movimiento.webp', t:'Tutorial: movimiento',d:'Tutorial interactivo por fases; primera fase, aprender a moverse' },
+      { src:'img/game-tutorial-disparo.webp',    t:'Tutorial: disparo',   d:'Segunda fase: disparar a los asteroides' },
+      { src:'img/game-naves.webp',               t:'Selección de naves',  d:'Tres naves jugables con vida y velocidad distintas' },
+      { src:'img/game-gameplay.webp',            t:'Partida en acción',   d:'Asteroides, disparos y power-ups: escudo (orbe verde) y velocidad (orbe azul)' },
+    ],
+    data: [
+      { src:'img/data-fuente.webp',   t:'La fuente: el documento original', d:'Edición impresa del Diario Oficial de Chile — de aquí se extraen los datos' },
+      { src:'img/data-scraper.webp',  t:'Scraper del Diario Oficial', d:'Script Python que extrae constituciones, modificaciones y disoluciones de sociedades' },
+      { src:'img/data-json.webp',     t:'Datos estructurados',        d:'Salida en JSON: empresa, tipo de sociedad, fecha y enlace directo al PDF oficial' },
+      { src:'img/data-pipeline.webp', t:'Pipeline automatizado',      d:'Sistema de tareas en Docker con base de datos, procesamiento por fechas y avisos por correo' },
+    ],
+  };
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
+  const lbVideo = document.getElementById('lb-video');
+  const lbCap = document.getElementById('lb-caption');
+  const lbCount = document.getElementById('lb-count');
+  let shots = galleries.muni;
+  let shot = 0;
+
+  function showShot(i){
+    shot = (i + shots.length) % shots.length;
+    const s = shots[shot];
+    lbVideo.pause();
+    if (s.video) {
+      if (lbVideo.getAttribute('src') !== s.src) lbVideo.src = s.src;
+      lbVideo.style.display = 'block';
+      lbImg.style.display = 'none';
+    } else {
+      lbImg.src = s.src;
+      lbImg.alt = s.t + ' — ' + s.d;
+      lbImg.style.display = 'block';
+      lbVideo.style.display = 'none';
+    }
+    lbCap.innerHTML = s.t + '<small>' + s.d + '</small>';
+    lbCount.textContent = (shot + 1) + ' / ' + shots.length;
+  }
+  document.querySelectorAll('[data-lightbox-open]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      shots = galleries[btn.dataset.lightboxOpen] || galleries.muni;
+      showShot(0);
+      lb.showModal();
+    });
+  });
+  document.getElementById('lb-prev').addEventListener('click', () => showShot(shot - 1));
+  document.getElementById('lb-next').addEventListener('click', () => showShot(shot + 1));
+  document.getElementById('lb-close').addEventListener('click', () => lb.close());
+  lb.addEventListener('click', e => { if (e.target === lb) lb.close(); });
+  lb.addEventListener('close', () => lbVideo.pause());
+  lb.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') showShot(shot - 1);
+    if (e.key === 'ArrowRight') showShot(shot + 1);
+  });
+
+  // Reveals por scroll: solo si hay JS y el usuario no prefiere movimiento reducido.
+  // Sin JS todo el contenido queda visible.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    document.documentElement.classList.add('reveal-on');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+  }
+</script>
+
+</body>
+</html>
