@@ -3,8 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lucas Contreras · Desarrollo Web y Datos</title>
-<meta name="description" content="Desarrollo de páginas web, dashboards y automatizaciones para pymes e instituciones. Ingeniería Civil Informática, PUCV.">
+<title>Lucas Contreras · Ciberseguridad, Redes y Software</title>
+<meta name="description" content="Estudiante de 4º año de Ingeniería Civil Informática (PUCV). Ciberseguridad, redes y desarrollo de software. Buscando práctica profesional dic 2026 – feb 2027.">
+<meta property="og:title" content="Lucas Contreras · Ciberseguridad, Redes y Software">
+<meta property="og:description" content="Estudiante de Ingeniería Civil Informática (PUCV). Proyectos reales en seguridad, infraestructura, web y datos.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="img/muni-portada.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
@@ -30,6 +34,7 @@
     --body-c:#3f3a36;
     --mute:#57524d;
     --on-brand:#1c1917;
+    --ok:#15803d;
 
     --focus-outer:#c2410c;
     --focus-inner:#ffffff;
@@ -45,6 +50,7 @@
     --sp-section:clamp(44px, 6vw, 72px);
 
     --font:'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+    --mono:ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
     --ease-out:cubic-bezier(.22,1,.36,1);
 
     --z-nav:20; --z-skip:40;
@@ -64,6 +70,7 @@
   svg{display:block}
   h1,h2,h3{color:var(--ink);text-wrap:balance}
   p{text-wrap:pretty}
+  section[id], header[id]{scroll-margin-top:76px}
 
   a:focus-visible,button:focus-visible{
     outline:none;
@@ -129,6 +136,23 @@
   .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(32px, 5vw, 72px);align-items:center}
   .hero-inner{max-width:780px}
 
+  .available{
+    display:inline-flex;align-items:center;gap:10px;
+    background:#fff;color:var(--ink);
+    font-size:14px;font-weight:700;line-height:1.2;
+    padding:9px 16px 9px 12px;border-radius:var(--r-pill);
+    box-shadow:var(--shadow-rest), inset 0 0 0 1px var(--hairline);
+    margin-bottom:var(--sp-5);
+  }
+  .available .dot{position:relative;width:10px;height:10px;border-radius:50%;background:var(--ok);flex-shrink:0}
+  @media (prefers-reduced-motion: no-preference){
+    .available .dot::after{
+      content:"";position:absolute;inset:0;border-radius:50%;background:var(--ok);
+      animation:ping 2s var(--ease-out) infinite;
+    }
+    @keyframes ping{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.6);opacity:0}}
+  }
+
   /* Composición de capturas reales en el hero */
   .hero-visual{position:relative;min-height:430px}
   .shot{
@@ -144,10 +168,23 @@
   .shot-bar span:first-child{background:var(--brand)}
   .shot img{display:block;width:100%}
   .shot-1{width:86%;top:0;right:0;rotate:1.5deg}
-  .shot-2{width:52%;bottom:0;left:0;rotate:-2.5deg}
+  .shot-term{
+    width:58%;bottom:0;left:0;rotate:-2.5deg;
+    background:#1c1917;
+  }
+  .shot-term .shot-bar{background:#292524;border-bottom-color:#44403c}
+  .shot-term .shot-bar span{background:#57534e}
+  .shot-term .shot-bar span:first-child{background:var(--brand)}
+  .term{
+    font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#e7e5e4;
+    padding:14px 16px 16px;white-space:pre;overflow:hidden;
+  }
+  .term .p{color:#fb923c}
+  .term .ok{color:#4ade80}
+  .term .dim{color:#a8a29e}
   @media (prefers-reduced-motion: no-preference){
     .shot-1{animation:floaty 7s ease-in-out infinite}
-    .shot-2{animation:floaty 7s ease-in-out 1.4s infinite}
+    .shot-term{animation:floaty 7s ease-in-out 1.4s infinite}
     @keyframes floaty{50%{translate:0 -10px}}
   }
   @media(max-width:880px){
@@ -161,17 +198,28 @@
   }
   .hero-id::before{content:"";width:28px;height:2px;background:var(--brand);border-radius:1px}
   .hero h1{
-    font-size:clamp(2.6rem, 6.4vw, 4.4rem);
+    font-size:clamp(2.5rem, 6vw, 4.2rem);
     font-weight:800;line-height:1.04;letter-spacing:-.025em;
     margin-bottom:var(--sp-4);
-    max-width:16ch;
+    max-width:15ch;
   }
   .hero h1 em{font-style:normal;color:var(--brand-press)}
   .hero .lede{
     font-size:clamp(1.05rem, 1.5vw, 1.2rem);line-height:1.6;
-    max-width:52ch;margin-bottom:var(--sp-5);
+    max-width:54ch;margin-bottom:var(--sp-5);
   }
   .hero-actions{display:flex;flex-wrap:wrap;gap:var(--sp-3)}
+
+  /* Cifras rápidas */
+  .stats{
+    display:grid;grid-template-columns:repeat(4, 1fr);gap:var(--sp-4);
+    margin-top:clamp(36px, 5vw, 56px);
+  }
+  .stat{background:#fff;border-radius:var(--r-card);padding:var(--sp-4) var(--sp-5);box-shadow:var(--shadow-rest), inset 0 0 0 1px var(--hairline);display:flex;flex-direction:column}
+  .stat dd{order:-1}
+  .stat b{display:block;color:var(--ink);font-size:clamp(1.5rem, 2.6vw, 2rem);font-weight:800;letter-spacing:-.02em;line-height:1.1}
+  .stat span{color:var(--mute);font-size:14px;font-weight:600;line-height:1.35;display:block;margin-top:4px}
+  @media(max-width:760px){.stats{grid-template-columns:1fr 1fr}}
 
   /* Entrada del hero: escalonada, ease-out, sin bloquear contenido */
   @media (prefers-reduced-motion: no-preference){
@@ -179,6 +227,7 @@
     .rise-2{animation-delay:.09s}
     .rise-3{animation-delay:.18s}
     .rise-4{animation-delay:.27s}
+    .rise-5{animation-delay:.36s}
     @keyframes rise{to{opacity:1;transform:translateY(0)}}
   }
 
@@ -216,41 +265,29 @@
   .fact dt{color:var(--mute);font-size:13.5px;font-weight:600}
   .fact dd{color:var(--ink);font-size:16.5px;font-weight:700;line-height:1.35}
 
-  /* ===== Servicios ===== */
-  .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:var(--sp-4)}
-  .tile{
-    background:var(--surface);border-radius:var(--r-card);
-    padding:var(--sp-6) var(--sp-5);
-    display:flex;flex-direction:column;
-    transition:transform .22s var(--ease-out), box-shadow .22s var(--ease-out), background .22s var(--ease-out);
+  /* ===== Experiencia ===== */
+  .timeline{position:relative;max-width:760px;display:grid;gap:var(--sp-6);margin-top:var(--sp-5);list-style:none}
+  .timeline::before{
+    content:"";position:absolute;left:7px;top:10px;bottom:10px;width:2px;
+    background:linear-gradient(180deg, var(--brand), var(--peach));border-radius:1px;
   }
-  .tile:hover{transform:translateY(-4px);box-shadow:var(--shadow-lift);background:#fff}
-  .tile.featured{background:var(--peach);}
-  .tile.featured:hover{background:var(--peach)}
-  .tile .icon{
-    width:40px;height:40px;border-radius:12px;
-    background:rgba(249,115,22,.14);
-    display:flex;align-items:center;justify-content:center;
-    margin-bottom:var(--sp-4);
+  .entry{position:relative;padding-left:40px}
+  .entry::before{
+    content:"";position:absolute;left:0;top:6px;
+    width:16px;height:16px;border-radius:50%;
+    background:var(--bg);border:3px solid var(--brand);
   }
-  .tile .icon svg{width:20px;height:20px;stroke:var(--brand-deep);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-  .tile h3{font-size:17px;font-weight:700;margin-bottom:var(--sp-2)}
-  .tile p{color:var(--mute);font-size:15px;line-height:1.5;flex:1}
-  .tile .price{color:var(--brand-deep);font-size:14.5px;font-weight:800;margin-top:var(--sp-4)}
-
-  /* ===== Habilidades ===== */
-  #habilidades{background:var(--surface);border-block:1px solid var(--hairline)}
-  .skill-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px, 4vw, 48px)}
-  .skill-group h3{font-size:15px;font-weight:700;color:var(--brand-deep);margin-bottom:var(--sp-4)}
-  .skills{display:flex;flex-wrap:wrap;gap:var(--sp-2)}
-  .skill{
-    background:#fff;color:var(--body-c);
-    font-size:14.5px;font-weight:600;line-height:1;
-    padding:12px 16px;border-radius:var(--r-pill);
-    box-shadow:var(--shadow-rest);
-    transition:background .18s var(--ease-out), color .18s var(--ease-out), transform .18s var(--ease-out);
-  }
-  .skill:hover{background:var(--ink);color:#fff;transform:translateY(-2px)}
+  .entry.soon::before{border-style:dashed;border-color:var(--mute)}
+  .entry .when{color:var(--brand-deep);font-size:13.5px;font-weight:700;margin-bottom:4px}
+  .entry h3{font-size:18px;font-weight:700;margin-bottom:2px}
+  .entry .where{color:var(--ink);font-size:15px;font-weight:600;margin-bottom:var(--sp-2)}
+  .entry ul{list-style:none;display:grid;gap:6px;max-width:62ch}
+  .entry li{position:relative;padding-left:18px;color:var(--mute);font-size:15px;line-height:1.55}
+  .entry li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--brand)}
+  .entry li b{color:var(--ink);font-weight:700}
+  .entry p{color:var(--mute);font-size:15px;line-height:1.55;max-width:62ch}
+  .entry a{color:var(--brand-deep);font-weight:700;text-decoration:none;border-radius:var(--r-pill)}
+  .entry a:hover{text-decoration:underline}
 
   /* ===== Proyectos ===== */
   .chips{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-bottom:var(--sp-5)}
@@ -278,8 +315,9 @@
   .project .cover{position:relative;overflow:hidden;background:var(--peach)}
   .project .cover svg,
   .project .cover img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .5s var(--ease-out)}
-  .project:hover .cover svg,
   .project:hover .cover img{transform:scale(1.04)}
+  .project .cover.diagram{background:var(--peach-soft);display:flex;align-items:center;justify-content:center;padding:var(--sp-5)}
+  .project .cover.diagram svg{height:auto;max-width:520px}
   button.cover{border:0;padding:0;font:inherit;cursor:zoom-in;display:block;width:100%;text-align:left}
   button.cover:focus-visible{box-shadow:0 0 0 2px var(--focus-inner), 0 0 0 4px var(--focus-outer);border-radius:0}
   .cover-badge{
@@ -296,6 +334,10 @@
   .project .kind{color:var(--brand-deep);font-size:13.5px;font-weight:700}
   .project h3{font-size:clamp(1.1rem, 1.6vw, 1.35rem);font-weight:700;line-height:1.25}
   .project p{color:var(--mute);font-size:15px;line-height:1.55}
+  .project .points{list-style:none;display:grid;gap:6px}
+  .project .points li{position:relative;padding-left:18px;color:var(--mute);font-size:14.5px;line-height:1.5}
+  .project .points li::before{content:"";position:absolute;left:2px;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--brand)}
+  .project .points b{color:var(--ink)}
   .project .tech{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:var(--sp-2)}
   .project .tech span{
     background:var(--surface);color:var(--mute);
@@ -341,28 +383,37 @@
   .lb-btn:hover{background:var(--peach-soft);border-color:var(--brand)}
   .lb-btn:active{transform:scale(.95)}
 
-  /* ===== Experiencia / Formación ===== */
-  .timeline{position:relative;max-width:680px;display:grid;gap:var(--sp-5);margin-top:var(--sp-5);list-style:none}
-  .timeline::before{
-    content:"";position:absolute;left:7px;top:10px;bottom:10px;width:2px;
-    background:linear-gradient(180deg, var(--brand), var(--peach));border-radius:1px;
+  /* ===== Habilidades ===== */
+  #habilidades{background:var(--surface);border-block:1px solid var(--hairline)}
+  .skill-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(24px, 4vw, 40px)}
+  .skill-group h3{font-size:15px;font-weight:700;color:var(--brand-deep);margin-bottom:var(--sp-4)}
+  .skills{display:flex;flex-wrap:wrap;gap:var(--sp-2)}
+  .skill{
+    background:#fff;color:var(--body-c);
+    font-size:14.5px;font-weight:600;line-height:1;
+    padding:12px 16px;border-radius:var(--r-pill);
+    box-shadow:var(--shadow-rest);
+    transition:background .18s var(--ease-out), color .18s var(--ease-out), transform .18s var(--ease-out);
   }
-  .entry{position:relative;padding-left:40px}
-  .entry::before{
-    content:"";position:absolute;left:0;top:6px;
-    width:16px;height:16px;border-radius:50%;
-    background:var(--bg);border:3px solid var(--brand);
+  .skill:hover{background:var(--ink);color:#fff;transform:translateY(-2px)}
+
+  .creds{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--sp-4);margin-top:clamp(32px, 4vw, 48px)}
+  .cred{background:#fff;border-radius:var(--r-card);padding:var(--sp-5);box-shadow:var(--shadow-rest);display:flex;gap:var(--sp-4);align-items:flex-start}
+  .cred .icon{
+    width:40px;height:40px;border-radius:12px;flex-shrink:0;
+    background:rgba(249,115,22,.14);
+    display:flex;align-items:center;justify-content:center;
   }
-  .entry .when{color:var(--brand-deep);font-size:13.5px;font-weight:700;margin-bottom:4px}
-  .entry h3{font-size:17.5px;font-weight:700;margin-bottom:4px}
-  .entry p{color:var(--mute);font-size:15px;line-height:1.55;max-width:56ch}
+  .cred .icon svg{width:20px;height:20px;stroke:var(--brand-deep);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .cred h3{font-size:16px;font-weight:700;line-height:1.3}
+  .cred p{color:var(--mute);font-size:14.5px;line-height:1.5;margin-top:2px}
 
   /* ===== Contacto ===== */
   #contacto{
     background:linear-gradient(180deg, var(--peach-soft), var(--peach));
     border-block:1px solid var(--hairline);
   }
-  .contact-inner{max-width:640px;margin:0 auto;text-align:center}
+  .contact-inner{max-width:660px;margin:0 auto;text-align:center}
   .contact-inner h2{margin-bottom:var(--sp-3)}
   .contact-inner p{color:var(--mute);font-size:17px;margin-bottom:var(--sp-6)}
   .contact-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:var(--sp-3)}
@@ -388,10 +439,11 @@
   @media(max-width:900px){
     .project.wide{flex-direction:column}
     .project.wide .cover{flex:none;aspect-ratio:16/8}
+    .project.wide .cover.diagram{aspect-ratio:auto}
   }
   @media(max-width:768px){
-    .about{grid-template-columns:1fr}
-    .projects{grid-template-columns:1fr}
+    .about{grid-template-columns:minmax(0,1fr)}
+    .projects{grid-template-columns:minmax(0,1fr)}
     nav.primary .links a:not(.btn){display:none}
     .hero-actions .btn{flex:1 1 auto}
   }
@@ -413,36 +465,53 @@
     <a class="wordmark" href="#inicio">Lucas Contreras<span>.</span></a>
     <div class="links">
       <a href="#sobre-mi">Sobre mí</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#proyectos">Proyectos</a>
       <a href="#experiencia">Experiencia</a>
-      <a class="btn btn-primary" href="#contacto">Cotizar</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#habilidades">Habilidades</a>
+      <a class="btn btn-primary" href="cv-lucas-contreras.pdf" download>Descargar CV</a>
     </div>
   </div>
 </nav>
 
 <header class="hero" id="inicio">
   <div class="hero-glow" aria-hidden="true"></div>
-  <div class="container hero-grid">
-    <div class="hero-inner">
-      <p class="hero-id rise">Lucas Contreras · Desarrollador web y datos</p>
-      <h1 class="rise rise-2">Crea la web que tu negocio <em>merece</em></h1>
-      <p class="lede rise rise-3">Desarrollo webs, dashboards y automatizaciones para pymes e instituciones, con trabajo real entregado a la Municipalidad de Santo Domingo y Synthon Chile. Precio fijo por escrito y trato directo conmigo.</p>
-      <div class="hero-actions rise rise-4">
-        <a class="btn btn-primary btn-lg" href="#proyectos">Ver proyectos <span class="arrow" aria-hidden="true">→</span></a>
-        <a class="btn btn-secondary btn-lg" href="#contacto">Cotizar tu proyecto</a>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-inner">
+        <p class="available rise"><span class="dot" aria-hidden="true"></span>Disponible para práctica · dic 2026 – feb 2027</p>
+        <p class="hero-id rise rise-2">Ingeniería Civil Informática · PUCV</p>
+        <h1 class="rise rise-2">Construyo software y aprendo a <em>protegerlo</em></h1>
+        <p class="lede rise rise-3">Soy Lucas, estudiante de 4º año. He hecho scrapers que procesaron cerca de 100.000 registros, una plataforma de ciberseguridad para una municipalidad y mi propio servidor en casa. Busco mi segunda práctica en <strong>ciberseguridad, redes o desarrollo de software</strong>.</p>
+        <div class="hero-actions rise rise-4">
+          <a class="btn btn-primary btn-lg" href="#proyectos">Ver proyectos <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn-secondary btn-lg" href="cv-lucas-contreras.pdf" download>Descargar CV</a>
+        </div>
+      </div>
+      <div class="hero-visual rise rise-3" aria-hidden="true">
+        <div class="shot shot-1">
+          <div class="shot-bar"><span></span><span></span><span></span></div>
+          <img src="img/muni-portada.webp" alt="">
+        </div>
+        <div class="shot shot-term">
+          <div class="shot-bar"><span></span><span></span><span></span></div>
+<div class="term"><span class="p">lucas@homelab</span>:~$ docker ps
+mineweb-api
+mineweb-web
+mc-server-01
+mc-server-02
+<span class="p">lucas@homelab</span>:~$ sudo wg show
+<span class="ok">● wg0</span>  <span class="dim">peer: oracle-vps · handshake ok</span>
+<span class="p">lucas@homelab</span>:~$ <span class="dim">▍</span></div>
+        </div>
       </div>
     </div>
-    <div class="hero-visual rise rise-3" aria-hidden="true">
-      <div class="shot shot-1">
-        <div class="shot-bar"><span></span><span></span><span></span></div>
-        <img src="img/muni-portada.webp" alt="">
-      </div>
-      <div class="shot shot-2">
-        <div class="shot-bar"><span></span><span></span><span></span></div>
-        <img src="img/game-gameplay.webp" alt="">
-      </div>
-    </div>
+
+    <dl class="stats rise rise-5">
+      <div class="stat"><dt><span>Registros de empresas extraídos para Mirrow</span></dt><dd><b>~100.000</b></dd></div>
+      <div class="stat"><dt><span>Ediciones del Diario Oficial procesadas</span></dt><dd><b>1980 → hoy</b></dd></div>
+      <div class="stat"><dt><span>Proyectos entregados a clientes reales</span></dt><dd><b>3</b></dd></div>
+      <div class="stat"><dt><span>Cisco Networking Academy</span></dt><dd><b>CCNA ITN</b></dd></div>
+    </dl>
   </div>
 </header>
 
@@ -453,13 +522,14 @@
     <div class="about">
       <div class="bio" data-reveal>
         <h2>Sobre mí</h2>
-        <p>Soy Lucas Contreras Delgado, estudiante de <strong>Ingeniería Civil Informática en la PUCV</strong> y desarrollador freelance. Trabajo con pymes e instituciones que necesitan presencia web seria, paneles de datos claros o dejar de perder horas en tareas repetitivas.</p>
-        <p>He entregado una plataforma ciudadana para la <strong>Municipalidad de Santo Domingo</strong> y realicé mi práctica de ciberseguridad en <strong>Synthon Chile</strong>. Cada proyecto parte con alcance fijo por escrito: sabes qué recibes, cuándo y a qué precio, antes de pagar.</p>
+        <p>Soy Lucas Contreras Delgado, estudiante de <strong>Ingeniería Civil Informática en la PUCV</strong>. Me gusta entender cómo funcionan las cosas por dentro, y por eso terminé montando mi propio servidor, exponiéndolo a internet de forma segura y corriendo ahí mis proyectos.</p>
+        <p>He trabajado en <strong>automatización de datos</strong> para una empresa de análisis de riesgo, hice mi primera práctica en <strong>Synthon Chile</strong> (planta farmacéutica regulada) y lideré el desarrollo de una <strong>plataforma de ciberseguridad ciudadana</strong> para la Municipalidad de Santo Domingo. Me atrae mucho la tecnología aplicada a salud: en 2027 empiezo una investigación sobre predicción de triage y filas de espera.</p>
+        <p>Soy optimista, aprendo rápido y no suelto un problema hasta resolverlo.</p>
         <dl class="facts">
-          <div class="fact"><dt>Ubicación</dt><dd>Valparaíso, Chile</dd></div>
-          <div class="fact"><dt>Formación</dt><dd>Ingeniería Civil Informática, PUCV</dd></div>
-          <div class="fact"><dt>Clientes reales</dt><dd>Municipalidad de Santo Domingo · Synthon Chile</dd></div>
-          <div class="fact"><dt>Respuesta</dt><dd>Menos de 24 horas</dd></div>
+          <div class="fact"><dt>Busco</dt><dd>Práctica profesional · dic 2026 – feb 2027 (320 h)</dd></div>
+          <div class="fact"><dt>Áreas</dt><dd>Ciberseguridad · Redes · Desarrollo de software</dd></div>
+          <div class="fact"><dt>Ubicación</dt><dd>Valparaíso y Santiago · híbrido o remoto</dd></div>
+          <div class="fact"><dt>Idiomas</dt><dd>Español nativo · Inglés B2</dd></div>
         </dl>
       </div>
       <img class="portrait" src="img/lucas-contreras.webp" alt="Lucas Contreras Delgado" width="474" height="638" loading="lazy" data-reveal>
@@ -467,94 +537,134 @@
   </div>
 </section>
 
-<section id="servicios">
+<section id="experiencia" style="background:var(--surface);border-block:1px solid var(--hairline)">
   <div class="container">
     <div data-reveal>
-      <h2>Servicios</h2>
-      <p class="section-sub">Precios de lanzamiento, alcance fijo por escrito y comunicación directa.</p>
+      <h2>Experiencia</h2>
+      <p class="section-sub">Trabajo pagado, práctica y proyectos con clientes reales.</p>
     </div>
-    <div class="tiles" data-reveal>
-      <div class="tile featured">
-        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="14" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="18" x2="12" y2="21"/></svg></div>
-        <h3>Landing page profesional</h3>
-        <p>Página moderna, rápida y adaptada a celulares para tener presencia online ya.</p>
-        <p class="price">Desde $200.000 CLP</p>
-      </div>
-      <div class="tile">
-        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="9" x2="9" y2="21"/></svg></div>
-        <h3>Sitio web corporativo</h3>
-        <p>Varias secciones, contacto, WhatsApp y Google Maps integrados.</p>
-        <p class="price">Desde $350.000 CLP</p>
-      </div>
-      <div class="tile">
-        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20v-10M10 20V4M16 20v-6"/><path d="M2 20h20"/></svg></div>
-        <h3>Dashboards y datos</h3>
-        <p>Tus planillas convertidas en paneles visuales y reportes automáticos.</p>
-        <p class="price">Desde $400.000 CLP</p>
-      </div>
-      <div class="tile">
-        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/><rect x="8" y="8" width="8" height="8" rx="2"/></svg></div>
-        <h3>Automatizaciones y scraping</h3>
-        <p>Tareas repetitivas automatizadas con Python. Recupera horas cada semana.</p>
-        <p class="price">Cotización según proyecto</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="habilidades">
-  <div class="container">
-    <div data-reveal>
-      <h2>Habilidades y tecnologías</h2>
-      <p class="section-sub">Formación universitaria más experiencia en proyectos reales.</p>
-    </div>
-    <div class="skill-groups" data-reveal>
-      <div class="skill-group">
-        <h3>Desarrollo web</h3>
-        <div class="skills">
-          <span class="skill">JavaScript / TypeScript</span>
-          <span class="skill">React</span>
-          <span class="skill">HTML/CSS</span>
-          <span class="skill">Supabase</span>
-        </div>
-      </div>
-      <div class="skill-group">
-        <h3>Datos y automatización</h3>
-        <div class="skills">
-          <span class="skill">Python</span>
-          <span class="skill">Análisis de datos</span>
-          <span class="skill">Web scraping</span>
-          <span class="skill">MySQL</span>
-        </div>
-      </div>
-      <div class="skill-group">
-        <h3>Base de ingeniería</h3>
-        <div class="skills">
-          <span class="skill">Java</span>
-          <span class="skill">C</span>
-          <span class="skill">Ciberseguridad</span>
-          <span class="skill">GitHub</span>
-        </div>
-      </div>
-    </div>
+    <ol class="timeline" data-reveal>
+      <li class="entry">
+        <p class="when">mar 2026 – jul 2026</p>
+        <h3>Desarrollador de Automatización de Datos</h3>
+        <p class="where">Mirrow · part-time</p>
+        <ul>
+          <li>Scrapers en Python que extraen constituciones, modificaciones y disoluciones de sociedades del <b>Diario Oficial de Chile</b>, desde ~1980 hasta hoy.</li>
+          <li>Cerca de <b>100.000 registros estructurados</b> (JSON y PostgreSQL) para evaluar la confiabilidad de empresas: dueños, socios, historial y deudas.</li>
+          <li>OCR para ediciones escaneadas, ejecución orquestada con Flask sobre Docker, migraciones con Alembic y avisos por correo.</li>
+        </ul>
+      </li>
+      <li class="entry">
+        <p class="when">2026</p>
+        <h3>Desarrollador principal · proyecto con cliente real</h3>
+        <p class="where">Municipalidad de Santo Domingo</p>
+        <ul>
+          <li>Plataforma web de ciberseguridad ciudadana: registro de vecinos, cuestionarios de riesgo, módulos educativos, denuncias y alertas.</li>
+          <li>React + TypeScript, Node.js (Express) y Supabase con <b>JWT, roles, Row Level Security, hashing, rate limiting</b> y validación de archivos.</li>
+          <li>Levantamiento de requisitos con el encargado de informática municipal y capacitación de entrega.</li>
+        </ul>
+      </li>
+      <li class="entry">
+        <p class="when">dic 2025 – feb 2026</p>
+        <h3>Práctica Profesional I · Ciberseguridad y Soporte TI</h3>
+        <p class="where">Synthon Chile · planta farmacéutica</p>
+        <ul>
+          <li>Diseñé y programé el prototipo de una app de inventario de equipos y repuestos TI (Python, Flet, SQLite) con búsqueda por código de barras.</li>
+          <li>Soporte TI en terreno bajo normativas y procedimientos de la industria farmacéutica (GMP).</li>
+        </ul>
+      </li>
+      <li class="entry">
+        <p class="when">2024 – 2026</p>
+        <h3>Desarrollador Web Freelance</h3>
+        <p class="where"><a href="https://tunelhincadoriegomat.cl/" target="_blank" rel="noopener">TunelHincado Riegomat</a></p>
+        <ul>
+          <li>Creé el sitio de la empresa en HTML/CSS (2024) y lo migré a React (2025–2026), con formulario de contacto y envío automático de correos (PHP).</li>
+        </ul>
+      </li>
+      <li class="entry">
+        <p class="when">2023 – actualidad · 8º semestre</p>
+        <h3>Ingeniería Civil Informática</h3>
+        <p class="where">Pontificia Universidad Católica de Valparaíso</p>
+        <p>Redes de computadores, hardware y sistemas operativos, computación paralela y distribuida, optimización e ingeniería de software. Cursando Ciberseguridad y Aprendizaje Automático 2.</p>
+      </li>
+      <li class="entry soon">
+        <p class="when">Desde 2027</p>
+        <h3>Investigación: optimización y predicción de triage</h3>
+        <p class="where">Con profesor guía PUCV</p>
+        <p>Simulación y machine learning para predecir demanda y tiempos de espera en servicios de urgencia.</p>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section id="proyectos">
   <div class="container">
     <div data-reveal>
-      <h2>Proyectos destacados</h2>
-      <p class="section-sub">Trabajo real para instituciones y empresas. Filtra por categoría.</p>
+      <h2>Proyectos</h2>
+      <p class="section-sub">Lo que he construido, de la infraestructura al frontend. Filtra por área.</p>
     </div>
     <div class="chips" role="group" aria-label="Filtrar proyectos" data-reveal>
       <button class="chip" aria-pressed="true" data-filter="todos">Todos</button>
+      <button class="chip" aria-pressed="false" data-filter="seguridad">Seguridad e infraestructura</button>
       <button class="chip" aria-pressed="false" data-filter="web">Web</button>
       <button class="chip" aria-pressed="false" data-filter="datos">Datos</button>
       <button class="chip" aria-pressed="false" data-filter="software">Software</button>
     </div>
     <div class="projects" id="grid-proyectos" data-reveal>
 
-      <article class="project wide" data-cat="web">
+      <article class="project wide" data-cat="seguridad">
+        <div class="cover diagram">
+          <svg viewBox="0 0 520 330" role="img" aria-labelledby="dg-t dg-d">
+            <title id="dg-t">Arquitectura del homelab</title>
+            <desc id="dg-d">Los usuarios entran por internet a una VPS en Oracle Cloud, que se conecta por un túnel cifrado de WireGuard al servidor casero Debian, donde Docker corre MineWEB y los servidores de Minecraft.</desc>
+            <defs>
+              <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c2410c"/></marker>
+            </defs>
+            <g font-family="Bricolage Grotesque, Segoe UI, sans-serif">
+              <!-- Usuarios -->
+              <rect x="10" y="18" width="130" height="58" rx="12" fill="#fff" stroke="#ece4da" stroke-width="1.5"/>
+              <text x="75" y="44" text-anchor="middle" font-size="14" font-weight="700" fill="#1c1917">Jugadores</text>
+              <text x="75" y="62" text-anchor="middle" font-size="12" fill="#57524d">internet</text>
+              <!-- VPS -->
+              <rect x="195" y="18" width="150" height="58" rx="12" fill="#fff" stroke="#ece4da" stroke-width="1.5"/>
+              <text x="270" y="44" text-anchor="middle" font-size="14" font-weight="700" fill="#1c1917">VPS Oracle Cloud</text>
+              <text x="270" y="62" text-anchor="middle" font-size="12" fill="#57524d">IP pública · firewall</text>
+              <line x1="142" y1="47" x2="191" y2="47" stroke="#c2410c" stroke-width="2" marker-end="url(#ah)"/>
+              <!-- Túnel -->
+              <line x1="270" y1="78" x2="270" y2="126" stroke="#c2410c" stroke-width="2" stroke-dasharray="5 5" marker-end="url(#ah)"/>
+              <rect x="284" y="90" width="112" height="24" rx="12" fill="#ffedd5"/>
+              <text x="340" y="106" text-anchor="middle" font-size="12" font-weight="700" fill="#c2410c">túnel WireGuard</text>
+              <!-- Servidor casero -->
+              <rect x="40" y="132" width="460" height="184" rx="16" fill="#fff" stroke="#f97316" stroke-width="2"/>
+              <text x="62" y="160" font-size="14" font-weight="800" fill="#1c1917">Servidor casero · HP 250 G, 12 GB RAM</text>
+              <text x="62" y="178" font-size="12" fill="#57524d">Debian 13 · Docker · CasaOS · solo puertos necesarios · respaldos</text>
+              <rect x="62" y="196" width="196" height="100" rx="12" fill="#faf6f1"/>
+              <text x="160" y="222" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1c1917">MineWEB</text>
+              <text x="160" y="244" text-anchor="middle" font-size="12" fill="#57524d">web + API</text>
+              <text x="160" y="262" text-anchor="middle" font-size="12" fill="#57524d">panel del cliente</text>
+              <text x="160" y="280" text-anchor="middle" font-size="12" fill="#57524d">base de datos propia</text>
+              <rect x="280" y="196" width="198" height="100" rx="12" fill="#faf6f1"/>
+              <text x="379" y="222" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1c1917">Servidores Minecraft</text>
+              <text x="379" y="244" text-anchor="middle" font-size="12" fill="#57524d">administrados por cada cliente</text>
+              <text x="379" y="262" text-anchor="middle" font-size="12" fill="#57524d">consola · versión · respaldos</text>
+              <line x1="258" y1="246" x2="276" y2="246" stroke="#c2410c" stroke-width="2" marker-end="url(#ah)"/>
+            </g>
+          </svg>
+        </div>
+        <div class="body">
+          <p class="kind">Homelab · redes · seguridad</p>
+          <h3>Servidor propio + MineWEB</h3>
+          <p>Mi laboratorio para aprender infraestructura de verdad: un servidor en casa publicado en internet a través de una VPS, que aloja una plataforma para arrendar servidores privados de Minecraft.</p>
+          <ul class="points">
+            <li>Acceso público a través de una <b>VPS de Oracle Cloud</b> conectada por un <b>túnel WireGuard</b> que configuré.</li>
+            <li>Firewall con solo los puertos necesarios y respaldos periódicos. Siguiente paso: fail2ban y segmentación.</li>
+            <li>Probado con <b>2 servidores y 4 jugadores simultáneos</b> sin caídas.</li>
+          </ul>
+          <div class="tech"><span>Debian</span><span>Docker</span><span>WireGuard</span><span>Oracle Cloud</span><span>CasaOS</span></div>
+        </div>
+      </article>
+
+      <article class="project wide" data-cat="web seguridad">
         <button class="cover" type="button" data-lightbox-open="muni" aria-label="Ver demo en video y 12 capturas de la plataforma de la Municipalidad de Santo Domingo">
           <img src="img/muni-portada.webp" alt="Portada de la plataforma de ciberseguridad de la Municipalidad de Santo Domingo" width="1150" height="781" loading="lazy">
           <span class="cover-badge">🎬 Demo en video + 12 capturas</span>
@@ -562,9 +672,26 @@
         <div class="body">
           <p class="kind">Plataforma de ciberseguridad ciudadana</p>
           <h3>Municipalidad de Santo Domingo</h3>
-          <p>Plataforma completa con registro de vecinos, panel personal con seguimiento de progreso, cuestionarios de seguridad, módulos educativos, denuncias, alertas municipales y análisis de URLs sospechosas con Google Safe Browsing.</p>
-          <div class="tech"><span>React</span><span>Supabase</span><span>TypeScript</span></div>
-          <a class="go" href="#contacto">Pedir algo similar <span class="arrow" aria-hidden="true">→</span></a>
+          <p>Plataforma completa para que los vecinos aprendan a protegerse en internet: registro, panel personal con progreso, cuestionarios con nivel de riesgo, módulos educativos, denuncias con archivos adjuntos y alertas municipales.</p>
+          <ul class="points">
+            <li>Seguridad aplicada: <b>JWT con roles, Row Level Security, hashing, rate limiting</b>, validación de archivos y HTTPS.</li>
+            <li>Análisis de URLs sospechosas con la <b>API de Google Safe Browsing</b>.</li>
+            <li>Despliegue con Docker Compose (Nginx + API).</li>
+          </ul>
+          <div class="tech"><span>React</span><span>TypeScript</span><span>Node.js</span><span>Supabase</span><span>Docker</span></div>
+        </div>
+      </article>
+
+      <article class="project" data-cat="datos">
+        <button class="cover" type="button" data-lightbox-open="data" aria-label="Ver 4 capturas del pipeline de datos del Diario Oficial">
+          <img src="img/data-scraper.webp" alt="Código Python del scraper del Diario Oficial de Chile" width="1151" height="863" loading="lazy">
+          <span class="cover-badge">📷 Ver 4 capturas</span>
+        </button>
+        <div class="body">
+          <p class="kind">Automatización de datos · Mirrow</p>
+          <h3>Pipeline del Diario Oficial</h3>
+          <p>Convierte décadas de publicaciones del Diario Oficial en ~100.000 registros estructurados de empresas, incluyendo OCR de ediciones escaneadas. Corre en Docker con base de datos, procesamiento por fechas y avisos por correo.</p>
+          <div class="tech"><span>Python</span><span>OCR</span><span>PostgreSQL</span><span>Flask</span><span>Docker</span></div>
         </div>
       </article>
 
@@ -576,23 +703,8 @@
         <div class="body">
           <p class="kind">Videojuego 2D</p>
           <h3>SPACE-NAV</h3>
-          <p>Juego de naves y asteroides con rondas progresivas, tres naves jugables, power-ups de escudo y velocidad, y tutorial interactivo por fases.</p>
+          <p>Juego de naves y asteroides con rondas progresivas, tres naves jugables, power-ups y tutorial interactivo. Aplica los patrones Strategy, Template Method y Singleton.</p>
           <div class="tech"><span>Java</span><span>libGDX</span><span>POO</span></div>
-          <a class="go" href="#contacto">Pedir algo similar <span class="arrow" aria-hidden="true">→</span></a>
-        </div>
-      </article>
-
-      <article class="project" data-cat="datos">
-        <button class="cover" type="button" data-lightbox-open="data" aria-label="Ver 4 capturas del sistema de recopilación de datos">
-          <img src="img/data-scraper.webp" alt="Código Python del scraper del Diario Oficial de Chile" width="1151" height="863" loading="lazy">
-          <span class="cover-badge">📷 Ver 4 capturas</span>
-        </button>
-        <div class="body">
-          <p class="kind">Datos automáticos</p>
-          <h3>Scripts de recopilación de datos</h3>
-          <p>Scraper del Diario Oficial de Chile que convierte publicaciones en datos estructurados, con pipeline automatizado en Docker, base de datos y avisos por correo.</p>
-          <div class="tech"><span>Python</span><span>Web scraping</span><span>Docker</span></div>
-          <a class="go" href="#contacto">Pedir algo similar <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -604,9 +716,18 @@
         <div class="body">
           <p class="kind">App de escritorio</p>
           <h3>Sistema de evaluación de estudiantes</h3>
-          <p>Evaluaciones por materia con puntaje, registro de notas, modo práctica y editor de preguntas. Construido con Java Swing y programación orientada a objetos.</p>
-          <div class="tech"><span>Java</span><span>POO</span><span>Swing</span></div>
-          <a class="go" href="#contacto">Pedir algo similar <span class="arrow" aria-hidden="true">→</span></a>
+          <p>Evaluaciones por materia con puntaje, registro de notas, modo práctica y editor de preguntas, con Java Swing y programación orientada a objetos.</p>
+          <div class="tech"><span>Java</span><span>Swing</span><span>POO</span></div>
+        </div>
+      </article>
+
+      <article class="project" data-cat="web">
+        <div class="body">
+          <p class="kind">Sitio corporativo · freelance</p>
+          <h3>TunelHincado Riegomat</h3>
+          <p>Sitio de la empresa hecho en HTML/CSS en 2024 y migrado a React en 2025–2026, con formulario que envía correos automáticos (PHP). El cliente volvió para la segunda versión.</p>
+          <div class="tech"><span>React</span><span>PHP</span><span>HTML/CSS</span></div>
+          <a class="go" href="https://tunelhincadoriegomat.cl/" target="_blank" rel="noopener">Ver sitio <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </article>
 
@@ -614,29 +735,83 @@
   </div>
 </section>
 
-<section id="experiencia">
+<section id="habilidades">
   <div class="container">
     <div data-reveal>
-      <h2>Experiencia y formación</h2>
-      <p class="section-sub">Proyectos entregados y formación en curso.</p>
+      <h2>Habilidades</h2>
+      <p class="section-sub">Lo que uso en mis proyectos, no solo lo que vi en clases.</p>
     </div>
-    <ol class="timeline" data-reveal>
-      <li class="entry">
-        <p class="when">Freelance · entregado</p>
-        <h3>Plataforma ciudadana, Municipalidad de Santo Domingo</h3>
-        <p>Desarrollo completo de la plataforma web del programa municipal: sesiones, cuestionarios, módulos educativos y reportes.</p>
-      </li>
-      <li class="entry">
-        <p class="when">Práctica profesional · completada</p>
-        <h3>Ciberseguridad, Synthon Chile</h3>
-        <p>Inventario de activos de red con Python y soporte tecnológico en planta farmacéutica.</p>
-      </li>
-      <li class="entry">
-        <p class="when">En curso</p>
-        <h3>Ingeniería Civil Informática, PUCV</h3>
-        <p>Pontificia Universidad Católica de Valparaíso. Base formal en algoritmos, bases de datos, redes y desarrollo de software.</p>
-      </li>
-    </ol>
+    <div class="skill-groups" data-reveal>
+      <div class="skill-group">
+        <h3>Redes y seguridad</h3>
+        <div class="skills">
+          <span class="skill">TCP/IP y modelo OSI</span>
+          <span class="skill">Subnetting IPv4/IPv6</span>
+          <span class="skill">Firewall y túneles VPN</span>
+          <span class="skill">JWT y control de acceso</span>
+          <span class="skill">Row Level Security</span>
+          <span class="skill">Rate limiting</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Infraestructura</h3>
+        <div class="skills">
+          <span class="skill">Linux (Debian)</span>
+          <span class="skill">Docker / Compose</span>
+          <span class="skill">Nginx</span>
+          <span class="skill">WireGuard (VPN)</span>
+          <span class="skill">Oracle Cloud</span>
+          <span class="skill">Git / GitHub</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Desarrollo</h3>
+        <div class="skills">
+          <span class="skill">Python</span>
+          <span class="skill">TypeScript / JavaScript</span>
+          <span class="skill">React</span>
+          <span class="skill">Node.js / Express</span>
+          <span class="skill">Flask</span>
+          <span class="skill">Java</span>
+          <span class="skill">C</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Datos</h3>
+        <div class="skills">
+          <span class="skill">PostgreSQL</span>
+          <span class="skill">Supabase</span>
+          <span class="skill">MySQL / SQLite</span>
+          <span class="skill">Web scraping</span>
+          <span class="skill">OCR</span>
+          <span class="skill">ETL</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="creds" data-reveal>
+      <div class="cred">
+        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg></div>
+        <div>
+          <h3>CCNA: Introducción a las Redes</h3>
+          <p>Cisco Networking Academy · diciembre 2025</p>
+        </div>
+      </div>
+      <div class="cred">
+        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6z"/></svg></div>
+        <div>
+          <h3>Ciberseguridad</h3>
+          <p>Ramo en curso · Ingeniería Civil Informática PUCV</p>
+        </div>
+      </div>
+      <div class="cred">
+        <div class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h10M4 19h7"/></svg></div>
+        <div>
+          <h3>Inglés B2</h3>
+          <p>Leo documentación técnica sin problema · curso en Santander Open Academy</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -644,13 +819,15 @@
 
 <section id="contacto" aria-label="Contacto">
   <div class="container contact-inner" data-reveal>
-    <h2>¿Trabajamos juntos?</h2>
-    <p>Cuéntame tu idea sin costo ni compromiso. Respondo en menos de 24 horas.</p>
+    <h2>¿Buscas practicante?</h2>
+    <p>Estoy disponible de diciembre 2026 a febrero 2027, en Valparaíso o Santiago, híbrido o remoto. Respondo rápido.</p>
     <div class="contact-actions">
-      <a class="btn btn-primary btn-lg" href="mailto:lucaseducontrerasdelgado@gmail.com?subject=Cotización%20proyecto">Escríbeme un correo</a>
-      <a class="btn btn-dark btn-lg" href="https://wa.me/56974087471">WhatsApp +56 9 7408 7471</a>
+      <a class="btn btn-primary btn-lg" href="mailto:lucaseducontrerasdelgado@gmail.com?subject=Pr%C3%A1ctica%20profesional">Escríbeme un correo</a>
+      <a class="btn btn-dark btn-lg" href="https://www.linkedin.com/in/lucas-contreras-delgado-228498380" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-secondary btn-lg" href="cv-lucas-contreras.pdf" download>CV (español)</a>
+      <a class="btn btn-secondary btn-lg" href="cv-lucas-contreras-en.pdf" download>CV (English)</a>
     </div>
-    <p class="contact-note">O directo a <a href="mailto:lucaseducontrerasdelgado@gmail.com">lucaseducontrerasdelgado@gmail.com</a></p>
+    <p class="contact-note">O directo a <a href="mailto:lucaseducontrerasdelgado@gmail.com">lucaseducontrerasdelgado@gmail.com</a> · <a href="https://wa.me/56974087471">WhatsApp</a> · <a href="https://github.com/Lucakuuuu" target="_blank" rel="noopener me">GitHub</a></p>
   </div>
 </section>
 
@@ -662,28 +839,21 @@
         <p>Ingeniería Civil Informática<br>Pontificia Universidad Católica de Valparaíso · Chile</p>
       </div>
       <div>
-        <h3>Servicios</h3>
-        <ul>
-          <li><a href="#servicios">Landing pages</a></li>
-          <li><a href="#servicios">Sitios corporativos</a></li>
-          <li><a href="#servicios">Dashboards y datos</a></li>
-          <li><a href="#servicios">Automatizaciones</a></li>
-        </ul>
-      </div>
-      <div>
         <h3>Proyectos</h3>
         <ul>
+          <li><a href="#proyectos">Homelab + MineWEB</a></li>
           <li><a href="#proyectos">Municipalidad de Santo Domingo</a></li>
-          <li><a href="#proyectos">Videojuego SPACE-NAV</a></li>
-          <li><a href="#proyectos">Scripts de datos</a></li>
+          <li><a href="#proyectos">Pipeline del Diario Oficial</a></li>
+          <li><a href="#proyectos">SPACE-NAV</a></li>
         </ul>
       </div>
       <div>
         <h3>Contacto</h3>
         <ul>
           <li><a href="mailto:lucaseducontrerasdelgado@gmail.com">lucaseducontrerasdelgado@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/lucas-contreras-delgado-228498380" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://github.com/Lucakuuuu" target="_blank" rel="noopener me">GitHub: Lucakuuuu</a></li>
           <li><a href="https://wa.me/56974087471">WhatsApp +56 9 7408 7471</a></li>
-          <li><a href="https://github.com/Lucakuuuu" rel="me">GitHub: Lucakuuuu</a></li>
         </ul>
       </div>
     </div>
@@ -725,7 +895,7 @@
     muni: [
       { src:'img/muni-demo.mp4', video:true,     t:'Demo en video',             d:'Recorrido completo por la plataforma funcionando (sin audio)' },
       { src:'img/muni-portada.webp',              t:'Portada',                   d:'Inicio de la plataforma de ciberseguridad municipal' },
-      { src:'img/muni-login.webp',                t:'Iniciar sesión',            d:'Acceso de vecinos registrados' },
+      { src:'img/muni-login.webp',                t:'Iniciar sesión',            d:'Acceso de vecinos registrados con JWT y roles' },
       { src:'img/muni-registro.webp',             t:'Registro',                  d:'Creación de cuenta con RUT, región y comuna' },
       { src:'img/muni-dashboard.webp',            t:'Panel personal',            d:'Progreso del vecino: módulos, cuestionarios y nivel de conocimiento por área' },
       { src:'img/muni-cuestionarios.webp',        t:'Cuestionarios',             d:'Evaluaciones de seguridad digital con puntaje y nivel de riesgo' },
@@ -734,7 +904,7 @@
       { src:'img/muni-protocolos.webp',           t:'Protocolos',                d:'Biblioteca de documentos municipales con búsqueda y categorías' },
       { src:'img/muni-alertas.webp',              t:'Alertas',                   d:'Publicaciones de seguridad emitidas por la municipalidad' },
       { src:'img/muni-actividades.webp',          t:'Actividades municipales',   d:'Calendario de charlas y talleres de ciberseguridad' },
-      { src:'img/muni-denuncias.webp',            t:'Denuncias',                 d:'Formulario de reporte de incidentes con archivos adjuntos' },
+      { src:'img/muni-denuncias.webp',            t:'Denuncias',                 d:'Reporte de incidentes con archivos adjuntos validados' },
       { src:'img/muni-herramientas.webp',         t:'Herramientas de seguridad', d:'Análisis de URLs sospechosas con Google Safe Browsing' },
     ],
     java: [
@@ -781,7 +951,10 @@
       lbImg.style.display = 'block';
       lbVideo.style.display = 'none';
     }
-    lbCap.innerHTML = s.t + '<small>' + s.d + '</small>';
+    lbCap.textContent = s.t;
+    const small = document.createElement('small');
+    small.textContent = s.d;
+    lbCap.appendChild(small);
     lbCount.textContent = (shot + 1) + ' / ' + shots.length;
   }
   document.querySelectorAll('[data-lightbox-open]').forEach(btn => {
