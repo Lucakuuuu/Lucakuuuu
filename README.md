@@ -6,7 +6,7 @@ Construyo **webs, dashboards y automatizaciones** para pymes e instituciones —
 
 ### 🌐 Mi portafolio
 
-**→ [lucakuuuu.github.io/portafolio-lucas](https://lucakuuuu.github.io/portafolio-lucas/)**
+**→ [https://lucakuuuu.github.io/Lucakuuuu](https://lucakuuuu.github.io/Lucakuuuu/)**
 
 ### 📫 Contacto
 
